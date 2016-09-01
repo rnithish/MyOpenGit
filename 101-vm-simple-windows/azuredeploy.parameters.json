@@ -9,7 +9,7 @@
       "value": "LS1setup!"
     },
     "dnsLabelPrefix": {
-      "value": "GENUNIQUE"
+      "value": "genunique"
     }
   }
 }
