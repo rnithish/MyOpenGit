@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "dnsNamePrefix": {
-      "value": "GEN-UNIQUE"
+      "value": "genunique"
     },
     "agentCount": {
       "value": 1
