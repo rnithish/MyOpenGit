@@ -520,7 +520,7 @@
                   "forceUpdateTag": "[parameters('DSCExtensionUpdateTagVersion')]",
                   "settings": {
                     "configuration": {
-                      "url": "https: //stage1dbf109bce7846bc918.blob.core.windows.net/dscdeployment-stageartifacts/DSC/DSCExtension.zip",
+                      "url": "https://stage1dbf109bce7846bc918.blob.core.windows.net/dscdeployment-stageartifacts/DSC/DSCExtension.zip",
 
                       // "url": "[concat(parameters('_artifactsLocation'), '/', variables('DSCExtensionArchiveFolder'), '/', variables('DSCExtensionArchiveFileName'))]",
                       "script": "DSCExtension.ps1",
