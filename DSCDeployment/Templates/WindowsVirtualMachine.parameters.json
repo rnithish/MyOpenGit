@@ -8,6 +8,8 @@
         "dnsNameForPublicIP": {
             "value": "dscextendedvm"
         },
+        "_artifactsLocation": null,
+        "_artifactsLocationSasToken": null,
         "adminPassword": {
             "value": "LS1setup!"
         }
