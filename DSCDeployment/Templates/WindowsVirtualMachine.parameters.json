@@ -8,7 +8,7 @@
         "dnsNameForPublicIP": {
             "value": "dscextendedvm"
         },
-        "_artifactsLocation": "https://stage1dbf109bce7846bc918.blob.core.windows.net/dscdeployment-stageartifacts",
+        "_artifactsLocation": https://stage1dbf109bce7846bc918.blob.core.windows.net/dscdeployment-stageartifacts,
         "_artifactsLocationSasToken": (ConvertTo-SecureString -String 'sdsd' -AsPlainText -Force),
         "adminPassword": {
             "value": "LS1setup!"
