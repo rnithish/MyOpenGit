@@ -36,6 +36,7 @@
     <Content Include="Templates\WindowsVirtualMachine.parameters.json" />
     <Content Include="DSC\MyDSCExtn.ps1" />
     <Content Include="DSC\MyDsc.ps1" />
+    <Content Include="DSC\NithishDsc.ps1" />
   </ItemGroup>
   <Target Name="GetReferenceAssemblyPaths" />
 </Project>

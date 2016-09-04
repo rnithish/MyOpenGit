@@ -31,11 +31,11 @@ if ($UploadArtifacts) {
     $ArtifactStagingDirectory = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $ArtifactStagingDirectory))
     $DSCSourceFolder = [System.IO.Path]::GetFullPath([System.IO.Path]::Combine($PSScriptRoot, $DSCSourceFolder))
 
-    Set-Variable ArtifactsLocationName '_artifactsLocation' -Option ReadOnly -Force
-    Set-Variable ArtifactsLocationSasTokenName '_artifactsLocationSasToken' -Option ReadOnly -Force
+    #Set-Variable ArtifactsLocationName '_artifactsLocation' -Option ReadOnly -Force
+    #Set-Variable ArtifactsLocationSasTokenName '_artifactsLocationSasToken' -Option ReadOnly -Force
 
-    $OptionalParameters.Add($ArtifactsLocationName, $null)
-    $OptionalParameters.Add($ArtifactsLocationSasTokenName, $null)
+   # $OptionalParameters.Add($ArtifactsLocationName, $null)
+    #$OptionalParameters.Add($ArtifactsLocationSasTokenName, $null)
 
     # Parse the parameter file and update the values of artifacts location and artifacts location SAS token if they are present
     $JsonContent = Get-Content $TemplateParametersFile -Raw | ConvertFrom-Json
@@ -83,11 +83,11 @@ if ($UploadArtifacts) {
     $StorageAccountContext = (Get-AzureRmStorageAccount | Where-Object{$_.StorageAccountName -eq $StorageAccountName}).Context
 
     # Generate the value for artifacts location if it is not provided in the parameter file
-    $ArtifactsLocation = $OptionalParameters[$ArtifactsLocationName]
-    if ($ArtifactsLocation -eq $null) {
-        $ArtifactsLocation = $StorageAccountContext.BlobEndPoint + $StorageContainerName
-        $OptionalParameters[$ArtifactsLocationName] = $ArtifactsLocation
-    }
+    #$ArtifactsLocation = $OptionalParameters[$ArtifactsLocationName]
+    #if ($ArtifactsLocation -eq $null) {
+    #    $ArtifactsLocation = $StorageAccountContext.BlobEndPoint + $StorageContainerName
+    #    $OptionalParameters[$ArtifactsLocationName] = $ArtifactsLocation
+    #}
 
     # Copy files from the local storage staging location to the storage account container
     New-AzureStorageContainer -Name $StorageContainerName -Context $StorageAccountContext -Permission Container -ErrorAction SilentlyContinue *>&1

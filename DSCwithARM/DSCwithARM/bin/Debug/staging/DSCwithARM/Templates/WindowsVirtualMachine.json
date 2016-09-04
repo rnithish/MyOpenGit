@@ -34,19 +34,21 @@
         "description": "The Windows version for the VM. This will pick a fully patched image of this given Windows version. Allowed values: 2008-R2-SP1, 2012-Datacenter, 2012-R2-Datacenter."
       }
     },
-      "_artifactsLocation": {
-          "type": "string",
-          "metadata": {
-              "description": "Auto-generated container in staging storage account to receive post-build staging folder upload"
-          }
-      },
-      "_artifactsLocationSasToken": {
-          "type": "securestring",
-          "metadata": {
-              "description": "Auto-generated token to access _artifactsLocation"
-          }
-      },
-      "MyDscUpdateTagVersion": {
+    "_artifactsLocation": {
+      "type": "string",
+      "defaultValue": "https://stage1dbf109bce7846bc918.blob.core.windows.net/dscwitharm-stageartifacts",
+      "metadata": {
+        "description": "Auto-generated container in staging storage account to receive post-build staging folder upload"
+      }
+    },
+    "_artifactsLocationSasToken": {
+      "type": "securestring",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Auto-generated token to access _artifactsLocation"
+      }
+    },
+      "NithishDscUpdateTagVersion": {
           "type": "string",
           "defaultValue": "1.0",
           "metadata": {
@@ -76,8 +78,8 @@
     "diagnosticsStorageAccountResourceGroup": "[resourcegroup().name]",
     "accountid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', variables('diagnosticsStorageAccountResourceGroup'), '/providers/', 'Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName'))]",
     "wadmetricsresourceid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', variables('diagnosticsStorageAccountResourceGroup'), '/providers/', 'Microsoft.Compute/virtualMachines/', variables('vmName'))]",
-      "MyDscArchiveFolder": "DSC",
-      "MyDscArchiveFileName": "MyDsc.zip"
+      "NithishDscArchiveFolder": "DSC",
+      "NithishDscArchiveFileName": "NithishDsc.zip"
   },
   "resources": [
     {
@@ -510,18 +512,18 @@
                   "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
               ],
               "tags": {
-                  "displayName": "MyDsc"
+                  "displayName": "NithishDsc"
               },
               "properties": {
                   "publisher": "Microsoft.Powershell",
                   "type": "DSC",
                   "typeHandlerVersion": "2.9",
                   "autoUpgradeMinorVersion": true,
-                  "forceUpdateTag": "[parameters('MyDscUpdateTagVersion')]",
+                  "forceUpdateTag": "[parameters('NithishDscUpdateTagVersion')]",
                   "settings": {
                       "configuration": {
-                          "url": "[concat(parameters('_artifactsLocation'), '/', variables('MyDscArchiveFolder'), '/', variables('MyDscArchiveFileName'))]",
-                          "script": "MyDsc.ps1",
+                          "url": "[concat(parameters('_artifactsLocation'), '/', variables('NithishDscArchiveFolder'), '/', variables('NithishDscArchiveFileName'))]",
+                          "script": "NithishDsc.ps1",
                           "function": "Main"
                       },
                       "configurationArguments": {
