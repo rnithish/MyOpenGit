@@ -78,8 +78,12 @@
     "diagnosticsStorageAccountResourceGroup": "[resourcegroup().name]",
     "accountid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', variables('diagnosticsStorageAccountResourceGroup'), '/providers/', 'Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName'))]",
     "wadmetricsresourceid": "[concat('/subscriptions/', subscription().subscriptionId, '/resourceGroups/', variables('diagnosticsStorageAccountResourceGroup'), '/providers/', 'Microsoft.Compute/virtualMachines/', variables('vmName'))]",
-      "NithishDscArchiveFolder": "DSC",
-      "NithishDscArchiveFileName": "NithishDsc.zip"
+    "NithishDscArchiveFolder": "DSC",
+    "NithishDscArchiveFileName": "NithishDsc.zip",
+    "ShellRemoteingScriptFolder": "CustomScripts",
+    "ShellRemoteingScriptFileName": "ShellRemoteing.ps1",
+    "hostDNSNameScriptArgument": "[concat('*.',resourceGroup().location,'.cloudapp.azure.com')]"
+
   },
   "resources": [
     {
@@ -130,6 +134,20 @@
               "destinationAddressPrefix": "*",
               "access": "Allow",
               "priority": 100,
+              "direction": "Inbound"
+            }
+          },
+          {
+            "name": "WinRsRule",
+            "properties": {
+              "description": "Allow WinRm",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "destinationPortRange": "5986",
+              "sourceAddressPrefix": "Internet",
+              "destinationAddressPrefix": "*",
+              "access": "Allow",
+              "priority": 102,
               "direction": "Inbound"
             }
           },
@@ -222,13 +240,30 @@
               "osProfile": {
                 "computerName": "[variables('vmName')]",
                 "adminUsername": "[parameters('adminUsername')]",
-                "adminPassword": "[parameters('adminPassword')]"
+                "adminPassword": "[parameters('adminPassword')]",
+                //"secrets": [
+                //  {
+                //    "sourceVault": {
+                //      "id": "/subscriptions/1dbf109b-ce78-46bc-9185-92b5c77291f5/resourceGroups/dscwitharm/providers/Microsoft.KeyVault/vaults/nithishvault"
+                //    },
+                //    "vaultCertificates": [
+                //      {
+                //        "certificateUrl": "https://nithishvault.vault.azure.net:443/secrets/dscwitharmwinrs/16bc16bdf7a64e85885c0171f9a8ecf6",
+                //        "certificateStore": "My"
+                //      }
+                //    ]
+                //  }
+                //],
                 //"windowsConfiguration": {
                 //  "provisionVMAgent": true,
                 //  "winRM": {
                 //    "listeners": [
                 //      {
                 //        "protocol": "Http"
+                //      },
+                //      {
+                //        "protocol": "Https",
+                //        "certificateUrl": "https://nithishvault.vault.azure.net:443/secrets/dscwitharmwinrs/16bc16bdf7a64e85885c0171f9a8ecf6"
                 //      }
                 //    ]
                 //  },
@@ -586,7 +621,34 @@
                     "configurationUrlSasToken": "[parameters('_artifactsLocationSasToken')]"
                   }
                 }
-              }
+              },
+                {
+                    "name": "ShellRemoteing",
+                    "type": "extensions",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2015-06-15",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Compute/virtualMachines', variables('vmName'))]"
+                    ],
+                    "tags": {
+                        "displayName": "ShellRemoteing"
+                    },
+                    "properties": {
+                        "publisher": "Microsoft.Compute",
+                        "type": "CustomScriptExtension",
+                        "typeHandlerVersion": "1.4",
+                        "autoUpgradeMinorVersion": true,
+                      "settings": {
+                        "fileUris": [
+                          "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-vm-winrm-windows/ConfigureWinRM.ps1",
+                          "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-vm-winrm-windows/makecert.exe",
+                          "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/201-vm-winrm-windows/winrmconf.cmd"
+
+                        ],
+                        "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -file ConfigureWinRM.ps1 ',variables('hostDNSNameScriptArgument'))]"
+                      }
+                    }
+                }
             ]
           }
         ]
