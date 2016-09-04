@@ -182,17 +182,17 @@
           "computerName": "[variables('vmName')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]",
-          "windowsConfiguration": {
-            "provisionVMAgent": true,
-            "winRM": {
-              "listeners": [
-                {
-                  "protocol": "Http"
-                }
-              ]
-            },
-            "enableAutomaticUpdates": true
-          }
+          //"windowsConfiguration": {
+          //  "provisionVMAgent": true,
+          //  "winRM": {
+          //    "listeners": [
+          //      {
+          //        "protocol": "Http"
+          //      }
+          //    ]
+          //  },
+          //  "enableAutomaticUpdates": true
+          //}
         },
         "storageProfile": {
           "imageReference": {
